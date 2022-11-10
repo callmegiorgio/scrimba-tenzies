@@ -7,6 +7,7 @@ export default function App() {
 
     const [dice, setDice] = React.useState(allNewDice())
     const [tenzies, setTenzies] = React.useState(false)
+    const [rollCount, setRollCount] = React.useState(0)
     
     React.useEffect(() => {
         const allHeld = dice.every(die => die.isHeld)
@@ -35,6 +36,7 @@ export default function App() {
     
     function rollDice() {
         if(!tenzies) {
+            setRollCount(prevCount => prevCount + 1)
             setDice(oldDice => oldDice.map(die => {
                 return die.isHeld ? 
                     die :
@@ -42,6 +44,7 @@ export default function App() {
             }))
         } else {
             setTenzies(false)
+            setRollCount(0)
             setDice(allNewDice())
         }
     }
@@ -74,12 +77,15 @@ export default function App() {
             <div className="dice-container">
                 {diceElements}
             </div>
-            <button 
-                className="roll-dice" 
-                onClick={rollDice}
-            >
-                {tenzies ? "New Game" : "Roll"}
-            </button>
+            <div className="bottom">
+                <p className="roll-count">Rolls: {rollCount}</p>
+                <button 
+                    className="roll-dice" 
+                    onClick={rollDice}
+                >
+                    {tenzies ? "New Game" : "Roll"}
+                </button>
+            </div>
         </main>
     )
 }

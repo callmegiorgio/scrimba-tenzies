@@ -91,6 +91,17 @@ main {
     grid-area: g;
 }
 
+.bottom {
+    align-self: stretch;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+}
+
+.roll-count {
+    font-size: 1.1rem;
+}
+
 .roll-dice {
     height: 50px;
     width: 150px;
