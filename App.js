@@ -3,11 +3,28 @@ import Die from "./Die"
 import {nanoid} from "nanoid"
 import Confetti from "react-confetti"
 
+function addLeadingZero(num) {
+    return String(num).padStart(2, '0')
+}
+
+function secondsToHms(secs) {
+    const hours = Math.floor(secs / (60 * 60));
+
+    const divisorForMinutes = secs % (60 * 60);
+    const minutes = Math.floor(divisorForMinutes / 60);
+
+    const divisorForSeconds = divisorForMinutes % 60;
+    const seconds = Math.ceil(divisorForSeconds);
+
+    return `${addLeadingZero(hours)}:${addLeadingZero(minutes)}:${addLeadingZero(seconds)}`
+}
+
 export default function App() {
 
-    const [dice, setDice] = React.useState(allNewDice())
-    const [tenzies, setTenzies] = React.useState(false)
-    const [rollCount, setRollCount] = React.useState(0)
+    const [dice, setDice]                     = React.useState(allNewDice())
+    const [tenzies, setTenzies]               = React.useState(false)
+    const [rollCount, setRollCount]           = React.useState(0)
+    const [secondsElapsed, setSecondsElapsed] = React.useState(0)
     
     React.useEffect(() => {
         const allHeld = dice.every(die => die.isHeld)
@@ -17,6 +34,18 @@ export default function App() {
             setTenzies(true)
         }
     }, [dice])
+
+    React.useEffect(() => {
+        if (!tenzies) {
+            setSecondsElapsed(0)
+            
+            const timerId = window.setInterval(() => {
+                setSecondsElapsed(prevSecondsElapsed => prevSecondsElapsed + 1)
+            }, 1000)
+
+            return () => window.clearInterval(timerId)
+        }
+    }, [tenzies])
 
     function generateNewDie() {
         return {
@@ -85,6 +114,7 @@ export default function App() {
                 >
                     {tenzies ? "New Game" : "Roll"}
                 </button>
+                <p className="elapsed-time">{secondsToHms(secondsElapsed)}</p>
             </div>
         </main>
     )

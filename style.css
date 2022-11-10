@@ -100,6 +100,12 @@ main {
 
 .roll-count {
     font-size: 1.1rem;
+    justify-self: start;
+}
+
+.elapsed-time {
+    font-size: 1.05rem;
+    justify-self: end;
 }
 
 .roll-dice {
