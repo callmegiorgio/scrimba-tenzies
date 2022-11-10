@@ -1,4 +1,5 @@
 import React from "react"
+import { nanoid } from "nanoid"
 
 export default function Die(props) {
     const styles = {
@@ -9,7 +10,7 @@ export default function Die(props) {
 
     for (let i = 0; i < props.value; i++) {
         // https://dev.to/ekeijl/creating-dice-using-css-grid-j4
-        dotElements.push(<span className="die-dot"></span>)
+        dotElements.push(<span key={nanoid()} className="die-dot"></span>)
     }
 
     return (
